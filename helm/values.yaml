@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: hello-world/mvn
+  repository: naturalett/hello-world
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v3"
+  tag: "mvn-single-stage-v1"
 
 imagePullSecrets: []
 nameOverride: ""

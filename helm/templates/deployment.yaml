@@ -36,17 +36,17 @@ spec:
               protocol: TCP
           livenessProbe:
             initialDelaySeconds: 3
-            periodSeconds: 60
+            periodSeconds: 20
             timeoutSeconds: 3
             httpGet:
-              path: /healthcheck
+              path: /
               port: http
           readinessProbe:
             initialDelaySeconds: 10
-            periodSeconds: 5
+            periodSeconds: 20
             timeoutSeconds: 3
             httpGet:
-              path: /healthcheck
+              path: /
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

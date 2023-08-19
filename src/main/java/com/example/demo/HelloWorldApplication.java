@@ -32,7 +32,11 @@ public class HelloWorldApplication {
 
     @GetMapping("/")
     public String hello() {
-        return "Hello, World!";
+        String text = System.getenv("text");
+        if (text == null || text.isEmpty()) {
+            text = "Hello, World!";
+        }
+        return text;
     }
 
     @GetMapping("/healthcheck")

@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: naturalett/hello-world
+  repository: naturalett/maven-workshop
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "mvn-single-stage-v1"
+  tag: "v1"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -29,15 +29,32 @@ service:
   type: ClusterIP
   port: 8080
 
+canary:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite ^(/hello-world)$ $1/ redirect;
+    nginx.ingress.kubernetes.io/canary: "true"
+    nginx.ingress.kubernetes.io/canary-by-header: "x-region"
+    nginx.ingress.kubernetes.io/canary-by-header-value: "us-east"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /hello-world(/|$)(.*)
+          pathType: Prefix
+  tls: []
+
 ingress:
   enabled: true
   className: "nginx"
   annotations:
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header Accept-Encoding "";
-      sub_filter '<base href="/">' '<base href="/hello-world/">';
-      sub_filter_once on;
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite ^(/hello-world)$ $1/ redirect;
   hosts:
     - host: chart-example.local
       paths:

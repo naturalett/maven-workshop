@@ -6,10 +6,10 @@ replicaCount: 1
 text: "hello-world"
 
 image:
-  repository: naturalett/hello-world
+  repository: naturalett/maven-workshop
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "mvn-single-stage-v1"
+  tag: "v1"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -39,6 +39,7 @@ canary:
       rewrite ^(/hello-world)$ $1/ redirect;
     nginx.ingress.kubernetes.io/canary: "true"
     nginx.ingress.kubernetes.io/canary-by-header: "x-region"
+    nginx.ingress.kubernetes.io/canary-weight: "40"
     nginx.ingress.kubernetes.io/canary-by-header-value: "us-east"
   hosts:
     - host: chart-example.local

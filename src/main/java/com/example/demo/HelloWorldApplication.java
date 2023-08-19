@@ -30,13 +30,18 @@ public class HelloWorldApplication {
         );
     }
 
-    @GetMapping("/")
-    public String hello() {
+    @GetMapping("/text")
+    public String text() {
         String text = System.getenv("text");
         if (text == null || text.isEmpty()) {
-            text = "Hello, World!";
+            text = "You didn't set an environment variable!";
         }
         return text;
+    }
+
+    @GetMapping("/")
+    public String hello() {
+        return "Hello, World!";
     }
 
     @GetMapping("/healthcheck")

@@ -5,6 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile.single-stage
     image: my-web-app
+    container_name: maven-workshop-app
     environment: # Define environment variables for the app service
       - app.init-db=true # Set the value to true
     ports:
@@ -13,6 +14,7 @@ services:
       - db
   db:
     image: mysql:8.0
+    container_name: maven-workshop-db
     environment:
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: healthcheck_db
